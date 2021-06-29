@@ -1,3 +1,5 @@
+After download this aplication from the repository and open it in your code editor, install npm and then you can run it with npm start or yarn start.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
