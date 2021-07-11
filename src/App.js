@@ -3,47 +3,53 @@ import { Grid } from '@material-ui/core';
 import Searchbar from './components/SearchBar';
 import VideoInfo from './components/VideoInfo';
 import sourceApi from './api/sourceApi';
-//import { VideoList } from './components/VideoList';
+import VideoList from './components/VideoList';
 
 
 class App extends React.Component {
     state = {
-        video: [],
+        videos: [],
         selectedVideo: null,
     }
+
+    onVideoSelect = (video) => {
+        this.setState({ selectedVideo: video});
+    }
+
     handleSubmit = async (termFromSearchBar) => {
         const response = await sourceApi.get('search', {
             params: {
                 part: 'snippet',
                 maxResults: 5,
-                key: 'AIzaSyC3UluMI-5lmxYFy2-lUurY53f8nnIbJ8c',
+                key: 'API_KEY',
                 q: termFromSearchBar,
             }
         });
 
-        this.setState({ videos: response.data.items, selectedVideo: response.data.items[0] });
+        this.setState({ video: response.data.items, selectedVideo: response.data.items[0] });
     }
 
     render() {
-        const { selectedVideo } = this.state;
+        const { selectedVideo, videos } = this.state;
         return (
             <Grid justify='center' container spacing={10}>
-                <Grid item xs={14}>
+                <Grid item xs={12}>
                     <Grid container spacing={10}>
-                        <Grid item xs={14}>
+                        <Grid item xs={12}>
                             <Searchbar onFormSubmit={this.handleSubmit} />
                         </Grid>
-                        <Grid item xs={10}>
+                        <Grid item xs={8}>
                             <VideoInfo video={selectedVideo} />
                         </Grid>
-                        <Grid item xs={6}>
-                            {/*video list*/}
+                        <Grid item xs={4}>
+                            <VideoList videos={videos} onVideoSelect={this.onVideoSelect} />
                         </Grid>
                     </Grid>
                 </Grid>
             </Grid>
-        );
+        )
     }
 }
 
 export default App;
+
